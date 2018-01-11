@@ -1,0 +1,7 @@
+Appli lourde qui deviendra web plus tard -> donc utilisation direct modele mvc avec dao mais adapté au XML.
+Bon exemple d'implementation : https://stackoverflow.com/questions/19154202/data-access-object-dao-in-java
+
+Pour le parsing du XML -> fuir DOM l'api de base. Le autres API "connues" sont assez nazes aussi.
+par contre JAXB à été ajouté en java6, et sa déboite!
+exemple : http://www.mkyong.com/java/jaxb-hello-world-example/
+Doc complete : http://www.baeldung.com/java-xml (descendre au chapitre 5 sur JAXB)
