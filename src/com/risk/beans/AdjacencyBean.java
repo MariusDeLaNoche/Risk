@@ -3,6 +3,13 @@ package com.risk.beans;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Bean représentant une adjacence
+ * Une region contient plusieurs adjacences. La region contenant des adjacences est condidérée comme le point de départ de toutes ses adjacences.
+ * Du coup, la region contenue dans ce bean (AdjacencyBean) symbolise la région d'arrivée d'une adjacency.
+ * @author Alex
+ *
+ */
 public class AdjacencyBean {
 	private RegionBean region;
 	private List<String> moves;
