@@ -11,7 +11,7 @@ import java.util.List;
 public class RegionBean {
 	private String name;
 	private String bonus;
-	private List<RegionBean> adjacencies;
+	private List<AdjacencyBean> adjacencies;
 
 	/**
 	 * Constructeur region
@@ -27,17 +27,21 @@ public class RegionBean {
 	// ------
 	// --- METHODES
 	// ------
-	
+
 	/**
-	 * Ajoute une region dans la liste des adjacences de la region courante
-	 * @param aRegion la region a ajouter
-	 * @return boolean, true si ajout OK, false si la region existait déjà dans la liste
+	 * Ajoute une adjacency dans la liste des adjacencies de cette région
+	 * 
+	 * @param anAdjacency
+	 *            l'adjacency a ajouter
+	 * @return boolean, true si ajout OK, false si l'adjacency existait déjà dans la
+	 *         liste des adjacences de cette région
 	 */
-	public boolean addRegionAdjacency(RegionBean aRegion) {
+	public boolean addRegionAdjacency(AdjacencyBean anAdjacency) {
 		// Region deja dans la liste des adjacences?
-		boolean isAlreadyAdjacent = this.adjacencies.stream().filter(o -> o.getName().equals(aRegion.getName())).findFirst().isPresent();
+		boolean isAlreadyAdjacent = this.adjacencies.stream()
+				.filter(o -> o.getRegion().getName().equals(anAdjacency.getRegion().getName())).findFirst().isPresent();
 		if (!isAlreadyAdjacent)
-			this.adjacencies.add(aRegion);
+			this.adjacencies.add(anAdjacency);
 		return !isAlreadyAdjacent;
 	}
 
@@ -78,7 +82,7 @@ public class RegionBean {
 	/**
 	 * @return the adjacencies
 	 */
-	public List<RegionBean> getAdjacencies() {
+	public List<AdjacencyBean> getAdjacencies() {
 		return adjacencies;
 	}
 
@@ -86,7 +90,7 @@ public class RegionBean {
 	 * @param adjacencies
 	 *            the adjacencies to set
 	 */
-	public void setAdjacencies(List<RegionBean> adjacencies) {
+	public void setAdjacencies(List<AdjacencyBean> adjacencies) {
 		this.adjacencies = adjacencies;
 	}
 }
