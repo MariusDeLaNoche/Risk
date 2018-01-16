@@ -4,6 +4,11 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 
+/**
+ * 
+ * @author Alex
+ *
+ */
 public class ModesDAO {
 	private List<ModeDAO> modes;
 
