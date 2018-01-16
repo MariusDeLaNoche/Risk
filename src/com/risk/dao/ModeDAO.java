@@ -1,5 +1,6 @@
 package com.risk.dao;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlValue;
 
 /**
@@ -14,7 +15,7 @@ public class ModeDAO {
 	/**
 	 * @return the players
 	 */
-	@XmlValue
+	@XmlElement(name = "players")
 	public Integer getPlayers() {
 		return players;
 	}
@@ -27,7 +28,7 @@ public class ModeDAO {
 	/**
 	 * @return the initial
 	 */
-	@XmlValue
+	@XmlElement(name = "initial")
 	public Integer getInitial() {
 		return initial;
 	}

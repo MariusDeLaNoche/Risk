@@ -77,7 +77,7 @@ public class MapDAO {
 	/**
 	 * @return the minimal
 	 */
-	@XmlValue
+	@XmlElement(name = "minimal")
 	public Integer getMinimal() {
 		return minimal;
 	}
@@ -92,7 +92,7 @@ public class MapDAO {
 	/**
 	 * @return the divisor
 	 */
-	@XmlValue
+	@XmlElement(name = "divisor")
 	public Integer getDivisor() {
 		return divisor;
 	}
