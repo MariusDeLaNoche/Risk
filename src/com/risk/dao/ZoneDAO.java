@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
  */
 public class ZoneDAO {
 	private String name;
-	private int bonus;
+	private Integer bonus;
 	private RegionsDAO regions;
 	
 	/**

@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlValue;
  */
 public class RegionDAO {
 	private String name;
-	private int bonus; // A discuter
+	private Integer bonus;
 
 	/**
 	 * @return the name
