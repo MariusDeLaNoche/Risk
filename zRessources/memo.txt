@@ -5,3 +5,8 @@ Pour le parsing du XML -> fuir DOM l'api de base. Le autres API "connues" sont a
 par contre JAXB à été ajouté en java6, et sa déboite!
 exemple : http://www.mkyong.com/java/jaxb-hello-world-example/
 Doc complete : http://www.baeldung.com/java-xml (descendre au chapitre 5 sur JAXB)
+
+---
+
+On va construire une liste de RegionBean, puis une liste de ZoneBean a partir de cette premier liste!
+On fair bien gaffe a garder les même RegionBean dans les deux liste (pas créer 
