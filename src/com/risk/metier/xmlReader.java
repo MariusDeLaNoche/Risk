@@ -2,6 +2,10 @@ package com.risk.metier;
 
 import java.io.File;
 
+import javax.xml.bind.JAXB;
+
+import com.risk.dao.MapDAO;
+
 /**
  * Classe permettant la lecture d'un fichier XML à l'aide de l'API JABX
  * 
@@ -24,5 +28,12 @@ public class xmlReader {
 			e.printStackTrace();
 		}
 		return xmlFile;
+	}
+	
+	/**
+	 * Désérialisation d'un fichier XML
+	 */
+	public MapDAO unmarshalXML() {
+		return JAXB.unmarshal(getXMLFile(), MapDAO.class);
 	}
 }
