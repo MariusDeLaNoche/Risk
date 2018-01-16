@@ -21,7 +21,6 @@ public class AdjacencyDAO {
 	/**
 	 * @param start the start to set
 	 */
-	@XmlElement(name = "start")
 	public void setStart(StartDAO start) {
 		this.start = start;
 	}
@@ -35,7 +34,6 @@ public class AdjacencyDAO {
 	/**
 	 * @param ends the ends to set
 	 */
-	@XmlElement(name = "ends")
 	public void setEnds(EndsDAO ends) {
 		this.ends = ends;
 	}

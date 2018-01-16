@@ -21,7 +21,6 @@ public class AdjacenciesDAO {
 	/**
 	 * @param adjacency the adjacency to set
 	 */
-	@XmlElement(name = "adjacency")
 	public void setAdjacency(AdjacencyDAO adjacency) {
 		this.adjacency = adjacency;
 	}

@@ -21,7 +21,6 @@ public class EndDAO {
 	/**
 	 * @param region the region to set
 	 */
-	@XmlElement(name = "region")
 	public void setRegion(RegionDAO region) {
 		this.region = region;
 	}
@@ -35,7 +34,6 @@ public class EndDAO {
 	/**
 	 * @param moves the moves to set
 	 */
-	@XmlElement(name = "moves")
 	public void setMoves(MovesDAO moves) {
 		this.moves = moves;
 	}

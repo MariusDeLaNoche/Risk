@@ -25,7 +25,6 @@ public class MapDAO {
 	/**
 	 * @param regions the regions to set
 	 */
-	@XmlElement(name = "regions")
 	public void setRegions(RegionsDAO regions) {
 		this.regions = regions;
 	}
@@ -41,7 +40,6 @@ public class MapDAO {
 	/**
 	 * @param zones the zones to set
 	 */
-	@XmlElement(name = "zones")
 	public void setZones(ZonesDAO zones) {
 		this.zones = zones;
 	}
@@ -57,7 +55,6 @@ public class MapDAO {
 	/**
 	 * @param adjacencies the adjacencies to set
 	 */
-	@XmlElement(name = "adjacencies")
 	public void setAdjacencies(AdjacenciesDAO adjacencies) {
 		this.adjacencies = adjacencies;
 	}
@@ -73,7 +70,6 @@ public class MapDAO {
 	/**
 	 * @param modes the modes to set
 	 */
-	@XmlElement(name = "modes")
 	public void setModes(ModesDAO modes) {
 		this.modes = modes;
 	}
@@ -89,7 +85,6 @@ public class MapDAO {
 	/**
 	 * @param minimal the minimal to set
 	 */
-	@XmlValue
 	public void setMinimal(Integer minimal) {
 		this.minimal = minimal;
 	}
@@ -105,7 +100,6 @@ public class MapDAO {
 	/**
 	 * @param divisor the divisor to set
 	 */
-	@XmlValue
 	public void setDivisor(Integer divisor) {
 		this.divisor = divisor;
 	}

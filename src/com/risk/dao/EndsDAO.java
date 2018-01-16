@@ -23,7 +23,6 @@ public class EndsDAO {
 	/**
 	 * @param endList the endList to set
 	 */
-	@XmlElement(name = "end")
 	public void setEndList(List<EndDAO> endList) {
 		this.endList = endList;
 	}
