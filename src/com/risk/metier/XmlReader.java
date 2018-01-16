@@ -12,7 +12,7 @@ import com.risk.dao.MapDAO;
  * @author Alex
  *
  */
-public class xmlReader {
+public class XmlReader {
 
 	/**
 	 * Instancie un objet File correspondant au fichier xml dont le chemin est
@@ -23,7 +23,7 @@ public class xmlReader {
 	public File getXMLFile() {
 		File xmlFile = null;
 		try {
-			xmlFile = new File(propertiesReader.getMapPath());
+			xmlFile = new File(PropertiesReader.getMapPath());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

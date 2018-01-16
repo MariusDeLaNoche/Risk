@@ -12,7 +12,7 @@ import java.util.Properties;
  * @author Alex
  *
  */
-public class propertiesReader {
+public class PropertiesReader {
 	
 	private static final String PROPERTIES_PATH = "risk.properties";
 	
