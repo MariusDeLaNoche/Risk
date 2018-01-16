@@ -16,7 +16,7 @@ public class ZoneDAO {
 	/**
 	 * @return the name
 	 */
-	@XmlValue
+	@XmlElement
 	public String getName() {
 		return name;
 	}
@@ -29,7 +29,7 @@ public class ZoneDAO {
 	/**
 	 * @return the bonus
 	 */
-	@XmlValue
+	@XmlElement
 	public int getBonus() {
 		return bonus;
 	}

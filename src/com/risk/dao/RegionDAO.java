@@ -1,5 +1,6 @@
 package com.risk.dao;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlValue;
 
 /**
@@ -14,7 +15,7 @@ public class RegionDAO {
 	/**
 	 * @return the name
 	 */
-	@XmlValue
+	@XmlElement
 	public String getName() {
 		return name;
 	}
@@ -29,7 +30,7 @@ public class RegionDAO {
 	/**
 	 * @return the bonus
 	 */
-	@XmlValue
+	@XmlElement
 	public int getBonus() {
 		return bonus;
 	}
