@@ -23,7 +23,7 @@ public class propertiesReader {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public String getMapPath() throws FileNotFoundException, IOException {
+	public static String getMapPath() throws FileNotFoundException, IOException {
 		Properties props = new Properties();
 		props.load(new FileInputStream(PROPERTIES_PATH));
 		return props.getProperty("mapPath");
