@@ -16,7 +16,7 @@ public class XmlReader {
 
 	/**
 	 * Instancie un objet File correspondant au fichier xml dont le chemin est
-	 * spécifié dans risk.properties
+	 * spécifié dans risk.properties.
 	 * 
 	 * @return File, une instance du fichier XML ou null chemin fichier invalide
 	 */
