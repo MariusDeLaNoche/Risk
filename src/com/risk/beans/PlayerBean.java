@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PlayerBean {
 	private String name;
-	private int initial;
+	private Integer initial;
 	private List<RegionBean> regions;
 	
 	/**

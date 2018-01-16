@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ZoneBean {
 	private String name;
-	private int bonus;
+	private Integer bonus;
 	private List<RegionBean> regions;
 	
 	/**

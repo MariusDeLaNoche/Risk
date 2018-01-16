@@ -6,10 +6,10 @@ package com.risk.beans;
  */
 
 public class RuleBean {
-	private int players;
-	private int initial;
-	private int minimal;
-	private int divisor;
+	private Integer players;
+	private Integer initial;
+	private Integer minimal;
+	private Integer divisor;
 	
 	/**
 	 * Constructeur
