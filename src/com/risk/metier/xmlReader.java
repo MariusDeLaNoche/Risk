@@ -3,7 +3,7 @@ package com.risk.metier;
 import java.io.File;
 
 /**
- * Classe permettant la lecutre d'un fichier XML à l'aide de l'API JABX
+ * Classe permettant la lecture d'un fichier XML à l'aide de l'API JABX
  * 
  * @author Alex
  *
