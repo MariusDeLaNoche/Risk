@@ -21,7 +21,6 @@ public class StartDAO {
 	/**
 	 * @param region the region to set
 	 */
-	@XmlElement(name = "region")
 	public void setRegion(RegionDAO region) {
 		this.region = region;
 	}

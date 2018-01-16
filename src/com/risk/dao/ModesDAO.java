@@ -23,7 +23,6 @@ public class ModesDAO {
 	/**
 	 * @param modes the modes to set
 	 */
-	@XmlElement(name = "mode")
 	public void setModes(List<ModeDAO> modes) {
 		this.modes = modes;
 	}

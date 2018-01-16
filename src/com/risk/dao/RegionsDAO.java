@@ -23,7 +23,6 @@ public class RegionsDAO {
 	/**
 	 * @param listRegion the listRegion to set
 	 */
-	@XmlElement(name = "region")
 	public void setListRegion(List<RegionDAO> listRegion) {
 		this.listRegion = listRegion;
 	}

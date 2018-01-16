@@ -21,7 +21,6 @@ public class ModeDAO {
 	/**
 	 * @param players the players to set
 	 */
-	@XmlValue
 	public void setPlayers(Integer players) {
 		this.players = players;
 	}
@@ -35,7 +34,6 @@ public class ModeDAO {
 	/**
 	 * @param initial the initial to set
 	 */
-	@XmlValue
 	public void setInitial(Integer initial) {
 		this.initial = initial;
 	}

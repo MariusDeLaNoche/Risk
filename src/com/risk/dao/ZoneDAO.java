@@ -23,7 +23,6 @@ public class ZoneDAO {
 	/**
 	 * @param name the name to set
 	 */
-	@XmlValue
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -37,7 +36,6 @@ public class ZoneDAO {
 	/**
 	 * @param bonus the bonus to set
 	 */
-	@XmlValue
 	public void setBonus(int bonus) {
 		this.bonus = bonus;
 	}
@@ -51,7 +49,6 @@ public class ZoneDAO {
 	/**
 	 * @param regions the regions to set
 	 */
-	@XmlElement(name = "regions")
 	public void setRegions(RegionsDAO regions) {
 		this.regions = regions;
 	}

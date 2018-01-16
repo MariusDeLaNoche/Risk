@@ -23,7 +23,6 @@ public class ZonesDAO {
 	/**
 	 * @param listZone the listZone to set
 	 */
-	@XmlElement(name = "zone")
 	public void setListZone(List<ZoneDAO> listZone) {
 		this.listZone = listZone;
 	}

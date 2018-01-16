@@ -21,7 +21,6 @@ public class MoveDAO {
 	/**
 	 * @param name the name to set
 	 */
-	@XmlValue
 	public void setName(String name) {
 		this.name = name;
 	}

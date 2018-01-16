@@ -22,7 +22,6 @@ public class RegionDAO {
 	/**
 	 * @param name the name to set
 	 */
-	@XmlValue
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -38,7 +37,6 @@ public class RegionDAO {
 	/**
 	 * @param bonus the bonus to set
 	 */
-	@XmlValue
 	public void setBonus(int bonus) {
 		this.bonus = bonus;
 	}

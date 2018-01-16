@@ -23,7 +23,6 @@ public class MovesDAO {
 	/**
 	 * @param movesList the moves to set
 	 */
-	@XmlElement(name = "move")
 	public void setMoves(List<MoveDAO> moves) {
 		this.movesList = moves;
 	}
