@@ -10,8 +10,9 @@ import java.util.List;
  */
 public class RegionBean {
 	private String name;
-	private String bonus;
+	private Integer bonus;
 	private List<AdjacencyBean> adjacencies;
+	private ZoneBean zone;
 
 	/**
 	 * Constructeur region
@@ -19,9 +20,22 @@ public class RegionBean {
 	 * @param aName
 	 * @param aBonus
 	 */
-	public RegionBean(String aName, String aBonus) {
+	public RegionBean(String aName, Integer aBonus) {
 		this.name = aName;
 		this.bonus = aBonus;
+	}
+	
+	/**
+	 * Constructeur region
+	 * 
+	 * @param aName
+	 * @param aBonus
+	 * @param zone
+	 */
+	public RegionBean(String aName, Integer aBonus, ZoneBean zone) {
+		this.name = aName;
+		this.bonus = aBonus;
+		this.zone = zone;
 	}
 
 	// ------
@@ -67,7 +81,7 @@ public class RegionBean {
 	/**
 	 * @return the bonus
 	 */
-	public String getBonus() {
+	public Integer getBonus() {
 		return bonus;
 	}
 
@@ -75,7 +89,7 @@ public class RegionBean {
 	 * @param bonus
 	 *            the bonus to set
 	 */
-	public void setBonus(String bonus) {
+	public void setBonus(Integer bonus) {
 		this.bonus = bonus;
 	}
 
@@ -92,5 +106,19 @@ public class RegionBean {
 	 */
 	public void setAdjacencies(List<AdjacencyBean> adjacencies) {
 		this.adjacencies = adjacencies;
+	}
+
+	/**
+	 * @return the zone
+	 */
+	public ZoneBean getZone() {
+		return zone;
+	}
+
+	/**
+	 * @param zone the zone to set
+	 */
+	public void setZone(ZoneBean zone) {
+		this.zone = zone;
 	}
 }

@@ -1,5 +1,7 @@
 package com.risk.dao;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlElement;
 
 /**
@@ -8,20 +10,20 @@ import javax.xml.bind.annotation.XmlElement;
  *
  */
 public class AdjacenciesDAO {
-	private AdjacencyDAO adjacency;
+	private List<AdjacencyDAO> listAdjacency;
 
 	/**
 	 * @return the adjacency
 	 */
 	@XmlElement(name = "adjacency")
-	public AdjacencyDAO getAdjacency() {
-		return adjacency;
+	public List<AdjacencyDAO> getListAdjacency() {
+		return listAdjacency;
 	}
 
 	/**
 	 * @param adjacency the adjacency to set
 	 */
-	public void setAdjacency(AdjacencyDAO adjacency) {
-		this.adjacency = adjacency;
+	public void setListAdjacency(List<AdjacencyDAO> listAdjacency) {
+		this.listAdjacency = listAdjacency;
 	}
 }
