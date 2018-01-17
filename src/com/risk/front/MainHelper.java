@@ -32,11 +32,7 @@ public class MainHelper {
 			System.out.println("Aucun mode de jeu ne correspond à ce nombre de joueurs. Veuillez saisir un nouveau nombre : ");
 			nbJoueurs = MainHelper.getInputNumber(demandeNbJoueurs);
 		}
-		
-		return lesModes.stream()
-				.filter(o -> o.getPlayers().intValue() == nbJoueurs)
-				.findFirst()
-				.get();
+		return lesModes.stream().filter(o -> o.getPlayers().intValue() == nbJoueurs).findFirst().get();
 	}
 	
 	/**
@@ -48,7 +44,12 @@ public class MainHelper {
 	public static List<String> askPlayersNames(int nbPlayers) throws IOException {
 		List<String> listeNoms = new ArrayList<String>();
 		for (int i = 0; i < nbPlayers; i++) {
-			listeNoms.add(getInputString("Veuillez entrer le nom du joueur " + (i + 1) + " : "));
+			String unNom = getInputString("Veuillez entrer le nom du joueur " + (i + 1) + " : ");
+			while(stringAlreadyExists(listeNoms, unNom)) {
+				System.out.println("Ce nom existe déjà! Veuillez en choisir un autre :");
+				unNom = getInputString("Veuillez entrer le nom du joueur " + (i + 1) + " : ");
+			}
+			listeNoms.add(unNom);
 		}
 		return listeNoms;
 	}
@@ -69,7 +70,6 @@ public class MainHelper {
 			input = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
 		}
-		
 		return Integer.parseInt(input);
 	}
 	
@@ -88,7 +88,16 @@ public class MainHelper {
 			System.out.println("Nouvel essai : ");
 			input = new BufferedReader(new InputStreamReader(System.in)).readLine();
 		}
-		
 		return input;
+	}
+	
+	/**
+	 * Vérifie si une chaine de caracteres se trouve dans une liste
+	 * @param lesStrings la liste a verifier
+	 * @param stringCompare la chine de caractre
+	 * @return true si existe deja, false sinon
+	 */
+	public static boolean stringAlreadyExists(List<String> lesStrings, String stringCompare) {
+		return lesStrings.stream().anyMatch(o -> o.equals(stringCompare));
 	}
 }
