@@ -14,7 +14,7 @@ import com.risk.front.MainHelper;
  *
  */
 public class Main {
-	
+
 	public static void main(String[] args) {
 		// Art magnifique++
 		System.out.println("_-' RISK '-_\n");
@@ -27,15 +27,10 @@ public class Main {
 
 		// Demande du nombre de joueurs et récupération du mode de jeu correspondant
 		ModeDAO modeJeu = MainHelper.askNbPlayers(lesModes);
-		
-		// Création des beans des joueurs
-		beanCreator.setPlayers(
-				MainHelper.askPlayersNames(modeJeu.getPlayers()));
-		
-		
-		
-		
-		
+
+		// Demande du nom des joueurs et création des beans des joueurs
+		beanCreator.setPlayers(MainHelper.askPlayersNames(modeJeu.getPlayers()));
+
 		System.out.println("");
 	}
 
