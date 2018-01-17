@@ -1,5 +1,6 @@
 package com.risk.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,7 @@ public class RegionBean {
 	public RegionBean(String aName, Integer aBonus) {
 		this.name = aName;
 		this.bonus = aBonus;
+		this.adjacencies = new ArrayList<>();
 	}
 	
 	/**
@@ -36,6 +38,7 @@ public class RegionBean {
 		this.name = aName;
 		this.bonus = aBonus;
 		this.zone = zone;
+		this.adjacencies = new ArrayList<>();
 	}
 
 	// ------
@@ -53,7 +56,9 @@ public class RegionBean {
 	public boolean addRegionAdjacency(AdjacencyBean anAdjacency) {
 		// Region deja dans la liste des adjacences?
 		boolean isAlreadyAdjacent = this.adjacencies.stream()
-				.filter(o -> o.getRegion().getName().equals(anAdjacency.getRegion().getName())).findFirst().isPresent();
+				.filter(o -> o.getRegion().getName().equals(anAdjacency.getRegion().getName()))
+				.findFirst()
+				.isPresent();
 		if (!isAlreadyAdjacent)
 			this.adjacencies.add(anAdjacency);
 		return !isAlreadyAdjacent;

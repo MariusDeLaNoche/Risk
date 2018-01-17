@@ -3,7 +3,6 @@ package com.risk.metier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-
 import com.risk.beans.AdjacencyBean;
 import com.risk.beans.PlayerBean;
 import com.risk.beans.RegionBean;
@@ -11,7 +10,6 @@ import com.risk.beans.ZoneBean;
 import com.risk.dao.AdjacencyDAO;
 import com.risk.dao.EndDAO;
 import com.risk.dao.MapDAO;
-import com.risk.dao.ModeDAO;
 import com.risk.dao.MoveDAO;
 import com.risk.dao.RegionDAO;
 import com.risk.dao.ZoneDAO;
@@ -51,21 +49,25 @@ public class BeanCreator {
 				AdjacencyDAO adjaDAO = dao.getAdjacencies().getListAdjacency().stream()
 						.filter(adj -> adj.getStart().getRegion().getName().replaceAll("\\s", "").equals(region.getName()))
 						.findFirst()
-						.get();
+						.orElse(null);
+				if(adjaDAO == null)
+					continue;
 				
 				for(EndDAO end : adjaDAO.getEnds().getEndList()) {
 					// Récupère la région concernée par l'adjacence
-					RegionBean reg = listRegions.stream()
+					 RegionBean reg = listRegions.stream()
 							.filter(r -> r.getName().equals(end.getRegion().getName().replaceAll("\\s", "")))
 							.findFirst()
-							.get();
-					
+							.orElse(null);
+					 if(reg == null)
+						 continue;
+
 					AdjacencyBean adjaBean = new AdjacencyBean(reg);
 					// Récupération des moves concernant notre adjacence
 					for(MoveDAO move : end.getMoves().getMoves()) {
 						adjaBean.addMove(move.getName().replaceAll("\\s", ""));
 					}
-					reg.addRegionAdjacency(adjaBean);
+					region.addRegionAdjacency(adjaBean);
 				}
 				
 				// On test si la région est présent dans cette zone
@@ -78,7 +80,6 @@ public class BeanCreator {
 					region.setZone(zone);
 			}
 		}
-		
 	}
 	
 	/**
