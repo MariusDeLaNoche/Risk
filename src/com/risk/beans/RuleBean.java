@@ -18,7 +18,7 @@ public class RuleBean {
 	 * @param minimal Nombre minimal de renforts par tour
 	 * @param divisor Diviseur du bonus de renfort
 	 */
-	public RuleBean(int players, int initial, int minimal, int divisor) {
+	public RuleBean(Integer players, Integer initial, Integer minimal, Integer divisor) {
 		this.players = players;
 		this.initial = initial;
 		this.minimal = minimal;
