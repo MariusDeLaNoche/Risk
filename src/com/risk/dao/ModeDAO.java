@@ -25,7 +25,7 @@ public class ModeDAO {
 		this.players = players;
 	}
 	/**
-	 * @return the initial
+	 * @return le nombre initial de troupes
 	 */
 	@XmlElement(name = "initial")
 	public Integer getInitial() {

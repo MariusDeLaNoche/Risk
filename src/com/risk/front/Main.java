@@ -3,6 +3,7 @@ package com.risk.front;
 import java.io.IOException;
 import java.util.List;
 
+import com.risk.beans.PlayerBean;
 import com.risk.dao.MapDAO;
 import com.risk.dao.ModeDAO;
 import com.risk.metier.BeanCreator;
@@ -23,15 +24,17 @@ public class Main {
 		
 		// Instanciation des classes DAO avec JAXB
 		XmlReader xml = new XmlReader();
-		MapDAO map = xml.unmarshalXML();
-		BeanCreator beanCreator = new BeanCreator(map);
+		MapDAO mapDAO = xml.unmarshalXML();
+		BeanCreator beanCreator = new BeanCreator(mapDAO);
 
 		// Demande du nombre de joueurs et récupération du mode de jeu correspondant
-		List<ModeDAO> lesModes = map.getModes().getModes();
-		ModeDAO modeJeu = MainHelper.askNbPlayers(lesModes);
+		List<ModeDAO> lesModes = mapDAO.getModes().getModes();
+		ModeDAO modeDAO = MainHelper.askNbPlayers(lesModes);
 
 		// Demande du nom des joueurs et création des beans des joueurs
-		beanCreator.setPlayers(MainHelper.askPlayersNames(modeJeu.getPlayers()), modeJeu.getInitial());
+		List<PlayerBean> players = beanCreator.setPlayers(MainHelper.askPlayersNames(modeDAO.getPlayers()), modeDAO.getInitial());
+		
+		// 
 
 		System.out.println("");
 	}
