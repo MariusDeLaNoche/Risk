@@ -26,6 +26,7 @@ public class RegionBean {
 		this.name = aName;
 		this.bonus = aBonus;
 		this.adjacencies = new ArrayList<>();
+		this.troopsOnGround = 0;
 	}
 	
 	/**
