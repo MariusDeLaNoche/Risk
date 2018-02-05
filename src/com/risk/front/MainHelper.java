@@ -105,4 +105,8 @@ public class MainHelper {
 	public static void assignRegion(List<PlayerBean> players) {
 		
 	}
+	
+	public static void deployTroops(List<PlayerBean> players) {
+		
+	}
 }
