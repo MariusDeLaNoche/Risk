@@ -176,8 +176,8 @@ public class MainHelper {
 				
 				// on affiche la liste des régions avec le nombre de troupes déjà placées
 				for(int i = 0 ; i < regions.size(); i++) {
-					System.out.println(i + ". " + regions.get(i).getZone() + " " + regions.get(i).getName() + 
-							"(actuellement " + regions.get(i).getTroopsOnGround() + " troupes)\n");
+					System.out.println(i + ". " + regions.get(i).getZone().getName() + " " + regions.get(i).getName() + 
+							" (actuellement " + regions.get(i).getTroopsOnGround() + " troupes)");
 				}
 				// on récupère le choix du joueur
 				Integer numRegion = -1;
@@ -199,7 +199,10 @@ public class MainHelper {
 					}
 				}
 				// placement des troupes selon les infos saisies
-				regions.get(numRegion).setTroopsOnGround(nbTroops);
+				regions.get(numRegion).setTroopsOnGround(
+						regions.get(numRegion).getTroopsOnGround() + nbTroops);
+				// on prend en compte le nombre de troupes placées
+				remainingTroops = remainingTroops - nbTroops;
 				
 				System.out.println("\n-------------------------------\n");
 			}
