@@ -37,6 +37,9 @@ public class Main {
 		
 		// Assignation des régions aux joueurs
 		List<RegionBean> freeRegions = MainHelper.assignRegion(players, beanCreator.getRegions());
+		
+		MainHelper.deployTroops(players);
+		
 
 		System.out.println("");
 	}

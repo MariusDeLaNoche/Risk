@@ -163,7 +163,7 @@ public class MainHelper {
 	 * @throws IOException 
 	 */
 	public static void deployTroops(List<PlayerBean> players) throws IOException {
-		System.out.println("\nChaque joueur va maintenant placer ses troupes.");
+		System.out.println("\n--- Chaque joueur va maintenant placer ses troupes ---");
 		
 		for (PlayerBean p : players) {
 			// on recupère le nombre de troupes que le joueur doit placer, et les régions qu'il possède
@@ -200,6 +200,8 @@ public class MainHelper {
 				}
 				// placement des troupes selon les infos saisies
 				regions.get(numRegion).setTroopsOnGround(nbTroops);
+				
+				System.out.println("\n-------------------------------\n");
 			}
 		}
 	}
