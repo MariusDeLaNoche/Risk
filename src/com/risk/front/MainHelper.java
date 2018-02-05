@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.risk.beans.PlayerBean;
+import com.risk.beans.RegionBean;
 import com.risk.dao.ModeDAO;
 
 /**
@@ -106,7 +107,50 @@ public class MainHelper {
 		
 	}
 	
-	public static void deployTroops(List<PlayerBean> players) {
+	/**
+	 * Permet d'effectuer le placement initial des troupes d'un joueur
+	 * @param players avec un liste de region possédées initialisée
+	 * @throws IOException 
+	 */
+	public static void deployTroops(List<PlayerBean> players) throws IOException {
+		System.out.println("\nChaque joueur va maintenant placer ses troupes.");
 		
+		for (PlayerBean p : players) {
+			// on recupère le nombre de troupes que le joueur doit placer, et les régions qu'il possède
+			int remainingTroops = p.getInitial();
+			List<RegionBean> regions = p.getRegions();
+			
+			// tant qu'il y a des troupes non attribuées
+			while (remainingTroops > 0) {
+				System.out.println(p.getName() + ", il vous reste " + remainingTroops + " troupe(s) à placer.");
+				
+				// on affiche la liste des régions avec le nombre de troupes déjà placées
+				for(int i = 0 ; i < regions.size(); i++) {
+					System.out.println(i + ". " + regions.get(i).getZone() + " " + regions.get(i).getName() + 
+							"(actuellement " + regions.get(i).getTroopsOnGround() + " troupes)\n");
+				}
+				// on récupère le choix du joueur
+				Integer numRegion = -1;
+				while (numRegion < 0 || numRegion >= regions.size()) {
+					numRegion = getInputNumber(
+						p.getName() + ", veuillez saisir le numéro de la région à peupler : ");
+					if (numRegion < 0 || numRegion >= regions.size()) {
+						System.out.println("Ce numéro de région n'existe pas.");
+					}
+				}
+				// on récupère le nombre de troupes
+				Integer nbTroops = -1;
+				while (nbTroops < 0 || nbTroops > remainingTroops) {
+					nbTroops = getInputNumber(
+							p.getName() + ", veuillez entrer le nombre de troupes à placer dans " + 
+							regions.get(numRegion).getName() + " : ");
+					if (nbTroops < 0 || nbTroops > remainingTroops) {
+						System.out.println("Le nombre de troupes saisi est invalide.");
+					}
+				}
+				// placement des troupes selon les infos saisies
+				regions.get(numRegion).setTroopsOnGround(nbTroops);
+			}
+		}
 	}
 }
