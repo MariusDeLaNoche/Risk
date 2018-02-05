@@ -103,8 +103,58 @@ public class MainHelper {
 		return lesStrings.stream().anyMatch(o -> o.equals(stringCompare));
 	}
 	
-	public static void assignRegion(List<PlayerBean> players) {
+	/**
+	 * Assigne les régions aux joueurs
+	 * @param players Liste des joueurs présents dans la partie
+	 * @param regions Liste des regions
+	 * @return La liste des régions non possédées
+	 * @throws IOException 
+	 */
+	public static List<RegionBean> assignRegion(List<PlayerBean> players, List<RegionBean> regions) throws IOException {
+		// Copie de la liste des regions afin de réaliser des manipulations
+		List<RegionBean> copyRegions = new ArrayList<>();
+		copyRegions.addAll(regions);
 		
+		int nbPlayers = players.size();
+		
+		System.out.println("\n--- Attribution des régions ---");
+		// Tant que le nombre de régions non possédé est supérieur ou égal au nombre de joueurs
+		while(copyRegions.size() >= nbPlayers) {
+			
+			// Pour chaque joueur
+			for(PlayerBean player : players) {
+				// Pour chaque région
+				for(int i = 0; i < copyRegions.size(); i++) {
+					// Affiche i avec le nom de la région
+					System.out.println(i + ": " + copyRegions.get(i).getName());
+				}
+				
+				// Demande un numéro au joueur
+				int num;
+				do {
+					num = getInputNumber(player.getName() + ", sélectionnez une région: ");
+				} while(num < 0 || num >= copyRegions.size());
+		
+				// On ajoute une troupe à la région
+				RegionBean region = copyRegions.get(num);
+				region.setTroopsOnGround(region.getTroopsOnGround() + 1);
+				// Ajoute la région, correspondant au numéro, au joueur
+				player.addRegion(region);
+				player.setInitial(player.getInitial() - 1);
+				
+				// On supprime la région de la liste
+				copyRegions.remove(num);
+				
+				System.out.println("\n-------------------------------\n");
+			}
+		}
+		
+		// On ajoute une troupe pour chaque régions non possédée
+		for(RegionBean region : copyRegions) {
+			region.setTroopsOnGround(region.getTroopsOnGround() + 1);
+		}
+		
+		return copyRegions;
 	}
 	
 	/**

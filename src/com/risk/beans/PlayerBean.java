@@ -1,5 +1,6 @@
 package com.risk.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ public class PlayerBean {
 	public PlayerBean(String name, int initial) {
 		this.name = name;
 		this.initial = initial;
+		this.regions = new ArrayList<>();
 	}
 
 	/**
