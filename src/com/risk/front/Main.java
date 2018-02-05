@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.risk.beans.PlayerBean;
+import com.risk.beans.RegionBean;
 import com.risk.dao.MapDAO;
 import com.risk.dao.ModeDAO;
 import com.risk.metier.BeanCreator;
@@ -34,7 +35,8 @@ public class Main {
 		// Demande du nom des joueurs et création des beans des joueurs
 		List<PlayerBean> players = beanCreator.setPlayers(MainHelper.askPlayersNames(modeDAO.getPlayers()), modeDAO.getInitial());
 		
-		// 
+		// Assignation des régions aux joueurs
+		List<RegionBean> freeRegions = MainHelper.assignRegion(players, beanCreator.getRegions());
 
 		System.out.println("");
 	}
