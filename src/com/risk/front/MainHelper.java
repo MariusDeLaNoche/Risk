@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.risk.beans.PlayerBean;
 import com.risk.dao.ModeDAO;
 
 /**
@@ -99,5 +100,9 @@ public class MainHelper {
 	 */
 	public static boolean stringAlreadyExists(List<String> lesStrings, String stringCompare) {
 		return lesStrings.stream().anyMatch(o -> o.equals(stringCompare));
+	}
+	
+	public static void assignRegion(List<PlayerBean> players) {
+		
 	}
 }
