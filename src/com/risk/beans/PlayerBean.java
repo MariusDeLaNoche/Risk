@@ -37,14 +37,14 @@ public class PlayerBean {
 	}
 
 	/**
-	 * @return the initial
+	 * @return the initial number of troops
 	 */
 	public int getInitial() {
 		return initial;
 	}
 
 	/**
-	 * @param initial the initial to set
+	 * @param initial the initial number of troops to set
 	 */
 	public void setInitial(int initial) {
 		this.initial = initial;

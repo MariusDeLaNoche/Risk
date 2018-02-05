@@ -14,6 +14,7 @@ public class RegionBean {
 	private Integer bonus;
 	private List<AdjacencyBean> adjacencies;
 	private ZoneBean zone;
+	private Integer troopsOnGround;
 
 	/**
 	 * Constructeur region
@@ -125,5 +126,19 @@ public class RegionBean {
 	 */
 	public void setZone(ZoneBean zone) {
 		this.zone = zone;
+	}
+
+	/**
+	 * @return the number of troops on ground
+	 */
+	public Integer getTroopsOnGround() {
+		return troopsOnGround;
+	}
+
+	/**
+	 * @param the number of troops on ground to set
+	 */
+	public void setTroopsOnGround(Integer troopsOnGround) {
+		this.troopsOnGround = troopsOnGround;
 	}
 }
