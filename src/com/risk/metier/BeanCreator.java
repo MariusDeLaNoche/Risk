@@ -40,17 +40,17 @@ public class BeanCreator {
 		
 		this.listRegions = new ArrayList<>();
 		
-		// Ajoute toutes nos régions à notre liste
+		// Ajoute chaque région à la liste des régions
 		for(RegionDAO regionDao : dao.getRegions().getListRegion()) {
 			RegionBean region = new RegionBean(regionDao.getName().replaceAll("\\s", ""), regionDao.getBonus());
 			listRegions.add(region);
 		}
 		
-		// Ajoute toutes nos zones à notre liste
+		// Récupère chaque Zone et l'associe aux régions qu'elle contient
 		for(ZoneDAO zoneDao : dao.getZones().getListZone()) {
 			ZoneBean zone = new ZoneBean(zoneDao.getName().replaceAll("\\s", ""), zoneDao.getBonus());
 			
-			// On ajoute les adjacences pour chaque régions
+			// On ajoute les adjacences pour chaque région
 			for(RegionBean region : listRegions) {
 				// On récupère le noeud d'adjacence correspondant à notre région
 				AdjacencyDAO adjaDAO = dao.getAdjacencies().getListAdjacency().stream()
@@ -77,14 +77,16 @@ public class BeanCreator {
 					region.addRegionAdjacency(adjaBean);
 				}
 				
-				// On test si la région est présent dans cette zone
+				// On test si la région est présente dans cette zone
 				boolean verif = zoneDao.getRegions().getListRegion().stream()
 				.filter(r -> r.getName().replaceAll("\\s", "").equals(region.getName()))
 				.findFirst()
 				.isPresent();
 				
-				if(verif)
+				if(verif) {
 					region.setZone(zone);
+					zone.addRegion(region);
+				}
 			}
 		}
 	}

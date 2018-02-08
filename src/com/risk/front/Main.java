@@ -45,7 +45,7 @@ public class Main {
 		MainHelper.deployTroops(players);
 
 		// Effectuer les tours de jeu
-		MainHelper.gameRounds(players, freeRegions);
+		MainHelper.doGameRound(players, freeRegions);
 		
 		System.out.println("");
 	}

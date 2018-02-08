@@ -224,7 +224,7 @@ public class MainHelper {
 	 * @return Le joueur qui remporte la victoire
 	 * @throws IOException 
 	 */
-	public static PlayerBean gameRounds(List<PlayerBean> players, List<RegionBean> freeRegions) throws IOException {
+	public static PlayerBean doGameRound(List<PlayerBean> players, List<RegionBean> freeRegions) throws IOException {
 		System.out.println("Début de la partie\n");
 		
 		List<PlayerBean> playersInGame = new ArrayList<>();
