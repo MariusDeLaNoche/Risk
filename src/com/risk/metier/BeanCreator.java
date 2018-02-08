@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import com.risk.beans.AdjacencyBean;
 import com.risk.beans.PlayerBean;
 import com.risk.beans.RegionBean;
+import com.risk.beans.RuleBean;
 import com.risk.beans.ZoneBean;
 import com.risk.dao.AdjacencyDAO;
 import com.risk.dao.EndDAO;
@@ -21,6 +22,7 @@ import com.risk.dao.ZoneDAO;
  */
 public class BeanCreator {
 	private MapDAO dao;
+	private RuleBean rule;
 	private List<PlayerBean> listPlayers;
 	private List<RegionBean> listRegions;
 	
@@ -31,6 +33,11 @@ public class BeanCreator {
 	 */
 	public BeanCreator(MapDAO mapDao) throws NoSuchElementException{
 		this.dao = mapDao;
+		
+		this.rule = new RuleBean();
+		this.rule.setDivisor(mapDao.getDivisor());
+		this.rule.setMinimal(mapDao.getMinimal());
+		
 		this.listRegions = new ArrayList<>();
 		
 		// Ajoute toutes nos régions à notre liste
@@ -83,12 +90,22 @@ public class BeanCreator {
 	}
 	
 	/**
+	 * @return Les règles de la partie
+	 */
+	public RuleBean getRule() {
+		return rule;
+	}
+	
+	/**
 	 * Initialise la liste des joueurs
 	 * @param listName Liste des noms de joueur
 	 * @return Null si nombre de joueurs incorrect, la liste de joueurs dans le cas contraire
 	 */
 	public List<PlayerBean> setPlayers(List<String> listName, Integer initial) {
 		int nbPlayers = listName.size();
+		
+		this.rule.setPlayers(nbPlayers);
+		this.rule.setInitial(initial);
 		
 		listPlayers = new ArrayList<>();
 		for(int i = 0; i < nbPlayers; i++) {
@@ -101,6 +118,6 @@ public class BeanCreator {
 	public List<RegionBean> getRegions() {
 		return this.listRegions;
 	}
-	
+
 	
 }

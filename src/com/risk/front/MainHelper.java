@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.risk.beans.PlayerBean;
 import com.risk.beans.RegionBean;
+import com.risk.beans.RuleBean;
 import com.risk.dao.ModeDAO;
 
 /**
@@ -18,8 +19,15 @@ import com.risk.dao.ModeDAO;
  *
  */
 public class MainHelper {
-
+	private static RuleBean ruleGame;
 	static int nbJoueurs;
+	
+	/**
+	 * @param rule Les règles définies pour la partie
+	 */
+	public static void setRule(RuleBean rule) {
+		ruleGame = rule;
+	}
 	
 	/**
 	 * Retourne le mode de jeu correspondant au nombre de joueurs demandé par l'utilisateur
@@ -207,5 +215,75 @@ public class MainHelper {
 				System.out.println("\n-------------------------------\n");
 			}
 		}
+	}
+	
+	/**
+	 * Tours de jeu
+	 * @param players La liste des joueurs
+	 * @param regions La liste des régions non possédées
+	 * @return Le joueur qui remporte la victoire
+	 */
+	public static PlayerBean gameRounds(List<PlayerBean> players, List<RegionBean> freeRegions) {
+		List<PlayerBean> playersInGame = new ArrayList<>();
+		playersInGame.addAll(players);
+		
+		while(playersInGame.size() != 1) {
+			for(PlayerBean player : playersInGame) {
+				// Déploiement
+				deployment(player);
+				
+				// Guerre
+				// war();
+				
+				// Renforcement
+				// reinforcement()
+				
+				// Test si encore au moins 2 joueurs en jeu
+				if(playersInGame.size() == 1)
+					break;
+			}
+		}
+		
+		return playersInGame.get(0);
+	}
+	
+	/**
+	 * Déploiement
+	 * @param player Joueur sur lequel agir
+	 */
+	private static void deployment(PlayerBean player) {
+		int nbMinRenfort = ruleGame.getMinimal();
+		
+		/*
+		 * Somme des bonus de renfort des régions possédées et des bonus de renfort des zones
+		 * dont toutes les régions sont possédées divisée par ruleGame.getDivisor()
+		 * et arrondie à l'entier inférieur
+		 */
+		int nbRenfortCalculee = 0;
+		
+		// On prend la valeur la plus grande
+		int renfort = (nbRenfortCalculee > nbMinRenfort)? nbRenfortCalculee : nbMinRenfort;
+		
+		while(renfort > 0) {
+			// Choix d'une région possédée
+			
+			// Choix du nombre de troupe à déployer D
+			
+			// Vérifie si D <= renfort
+			
+			// On applique
+			/*
+			 *  N <- N + D
+        	 *	R <- R - D
+			 */
+		}
+	}
+	
+	private static void war() {
+		
+	}
+	
+	private static void reinforcement() {
+		
 	}
 }

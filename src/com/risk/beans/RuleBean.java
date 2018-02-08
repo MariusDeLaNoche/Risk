@@ -24,6 +24,11 @@ public class RuleBean {
 		this.minimal = minimal;
 		this.divisor = divisor;
 	}
+	
+	/**
+	 * Constructeur
+	 */
+	public RuleBean() {}
 
 	/**
 	 * @return the players

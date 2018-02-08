@@ -27,6 +27,9 @@ public class Main {
 		XmlReader xml = new XmlReader();
 		MapDAO mapDAO = xml.unmarshalXML();
 		BeanCreator beanCreator = new BeanCreator(mapDAO);
+		
+		// On transmet les règles de la partie
+		MainHelper.setRule(beanCreator.getRule());
 
 		// Demande du nombre de joueurs et récupération du mode de jeu correspondant
 		List<ModeDAO> lesModes = mapDAO.getModes().getModes();
@@ -41,6 +44,9 @@ public class Main {
 		// Placement des troupes de chaque joueur
 		MainHelper.deployTroops(players);
 
+		// Effectuer les tours de jeu
+		MainHelper.gameRounds(players, freeRegions);
+		
 		System.out.println("");
 	}
 
