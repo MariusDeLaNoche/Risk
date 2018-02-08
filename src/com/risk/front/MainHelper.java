@@ -222,13 +222,18 @@ public class MainHelper {
 	 * @param players La liste des joueurs
 	 * @param regions La liste des régions non possédées
 	 * @return Le joueur qui remporte la victoire
+	 * @throws IOException 
 	 */
-	public static PlayerBean gameRounds(List<PlayerBean> players, List<RegionBean> freeRegions) {
+	public static PlayerBean gameRounds(List<PlayerBean> players, List<RegionBean> freeRegions) throws IOException {
+		System.out.println("Début de la partie\n");
+		
 		List<PlayerBean> playersInGame = new ArrayList<>();
 		playersInGame.addAll(players);
 		
 		while(playersInGame.size() != 1) {
 			for(PlayerBean player : playersInGame) {
+				System.out.println("Joueur " + player.getName());
+				
 				// Déploiement
 				deployment(player);
 				
@@ -241,6 +246,8 @@ public class MainHelper {
 				// Test si encore au moins 2 joueurs en jeu
 				if(playersInGame.size() == 1)
 					break;
+				
+				System.out.println("-------------------------------\n");
 			}
 		}
 		
@@ -250,8 +257,10 @@ public class MainHelper {
 	/**
 	 * Déploiement
 	 * @param player Joueur sur lequel agir
+	 * @throws IOException 
 	 */
-	private static void deployment(PlayerBean player) {
+	private static void deployment(PlayerBean player) throws IOException {
+		System.out.println("Déploiement");
 		int nbMinRenfort = ruleGame.getMinimal();
 		
 		/*
@@ -259,23 +268,37 @@ public class MainHelper {
 		 * dont toutes les régions sont possédées divisée par ruleGame.getDivisor()
 		 * et arrondie à l'entier inférieur
 		 */
-		int nbRenfortCalculee = 0;
+		int nbRenfortCalculee = 0; // TODO
 		
 		// On prend la valeur la plus grande
 		int renfort = (nbRenfortCalculee > nbMinRenfort)? nbRenfortCalculee : nbMinRenfort;
 		
 		while(renfort > 0) {
+			System.out.println("Il vous reste " + renfort + " renforts à déployer\n");
+			
 			// Choix d'une région possédée
+			for(int i = 0; i < player.getRegions().size(); i++) {
+				// Affiche i avec le nom de la région
+				System.out.println(i + ": " + player.getRegions().get(i).getName() + 
+						" (actuellement " + player.getRegions().get(i).getTroopsOnGround() + " troupes)");
+			}
+			int num;
+			do {
+				num = getInputNumber("Choisir une région: ");
+			} while(num < 0 || num >= player.getRegions().size());
+	
+			// On ajoute une troupe à la région
+			RegionBean region = player.getRegions().get(num);
 			
 			// Choix du nombre de troupe à déployer D
-			
-			// Vérifie si D <= renfort
-			
+			int nbDeployer;
+			do {
+				nbDeployer = getInputNumber("Nombre de troupe à déployer: ");
+			} while(nbDeployer < 1 || nbDeployer > renfort);
+						
 			// On applique
-			/*
-			 *  N <- N + D
-        	 *	R <- R - D
-			 */
+			region.setTroopsOnGround(region.getTroopsOnGround() + nbDeployer);
+			renfort -= nbDeployer;
 		}
 	}
 	
