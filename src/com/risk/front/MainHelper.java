@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.risk.beans.PlayerBean;
 import com.risk.beans.RegionBean;
 import com.risk.beans.RuleBean;
+import com.risk.beans.ZoneBean;
 import com.risk.dao.ModeDAO;
 
 /**
@@ -221,10 +222,11 @@ public class MainHelper {
 	 * Tours de jeu
 	 * @param players La liste des joueurs
 	 * @param regions La liste des régions non possédées
+	 * @param zones La liste des zones du jeu
 	 * @return Le joueur qui remporte la victoire
 	 * @throws IOException 
 	 */
-	public static PlayerBean doGameRound(List<PlayerBean> players, List<RegionBean> freeRegions) throws IOException {
+	public static PlayerBean doGameRound(List<PlayerBean> players, List<RegionBean> freeRegions, List<ZoneBean> zones) throws IOException {
 		System.out.println("Début de la partie\n");
 		
 		List<PlayerBean> playersInGame = new ArrayList<>();
@@ -235,7 +237,7 @@ public class MainHelper {
 				System.out.println("Joueur " + player.getName());
 				
 				// Déploiement
-				deployment(player);
+				deployment(player, zones);
 				
 				// Guerre
 				// war();
@@ -257,9 +259,10 @@ public class MainHelper {
 	/**
 	 * Déploiement
 	 * @param player Joueur sur lequel agir
+	 * @param zones La liste des zones du jeu
 	 * @throws IOException 
 	 */
-	private static void deployment(PlayerBean player) throws IOException {
+	private static void deployment(PlayerBean player, List<ZoneBean> zones) throws IOException {
 		System.out.println("Déploiement");
 		int nbMinRenfort = ruleGame.getMinimal();
 		
@@ -268,7 +271,15 @@ public class MainHelper {
 		 * dont toutes les régions sont possédées divisée par ruleGame.getDivisor()
 		 * et arrondie à l'entier inférieur
 		 */
-		int nbRenfortCalculee = 0; // TODO
+		int nbRenfortCalculee = 0; 
+		// Ajout du bonus de chaque région possédée
+		for(RegionBean r : player.getRegions())
+			nbRenfortCalculee += r.getBonus();
+		// Ajout du bonus de chaque zone entierrement possédée
+		for(ZoneBean z : player.getOwnedZones(zones))
+			nbRenfortCalculee += z.getBonus();	
+		// Application du divisor (resultat arrondi à l'entier inferieur car stocké dans un int)
+		nbRenfortCalculee = (nbRenfortCalculee / ruleGame.getDivisor());
 		
 		// On prend la valeur la plus grande
 		int renfort = (nbRenfortCalculee > nbMinRenfort)? nbRenfortCalculee : nbMinRenfort;
@@ -280,7 +291,7 @@ public class MainHelper {
 			for(int i = 0; i < player.getRegions().size(); i++) {
 				// Affiche i avec le nom de la région
 				System.out.println(i + ": " + player.getRegions().get(i).getName() + 
-						" (actuellement " + player.getRegions().get(i).getTroopsOnGround() + " troupes)");
+						" (actuellement " + player.getRegions().get(i).getTroopsOnGround() + " troupe(s))");
 			}
 			int num;
 			do {
@@ -293,7 +304,7 @@ public class MainHelper {
 			// Choix du nombre de troupe à déployer D
 			int nbDeployer;
 			do {
-				nbDeployer = getInputNumber("Nombre de troupe à déployer: ");
+				nbDeployer = getInputNumber("Nombre de troupes à déployer: ");
 			} while(nbDeployer < 1 || nbDeployer > renfort);
 						
 			// On applique

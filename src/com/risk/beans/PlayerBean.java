@@ -60,6 +60,10 @@ public class PlayerBean {
 		return this.regions;
 	}
 	
+	// ------
+	// --- METHODES
+	// ------
+	
 	/**
 	 * Ajoute une région au joueur
 	 * @param region Region à ajouter
@@ -80,6 +84,20 @@ public class PlayerBean {
 		RegionBean r = this.regions.stream().filter(o -> o.getName().equals(region.getName())).findFirst().orElse(null);
 		if(r != null)
 			regions.remove(r);
+	}
+
+	/**
+	 * Retourne la liste des zones entierrement possédées par le joueur
+	 * @param les zones a vérifier
+	 * @return la liste des zones possédées
+	 */
+	public List<ZoneBean> getOwnedZones(List<ZoneBean> zones) {
+		ArrayList<ZoneBean> ownedZones = new ArrayList<>();
+		for(ZoneBean z : zones) {
+			if (this.getRegions().containsAll(z.getRegions()))
+				ownedZones.add(z);
+		}
+		return ownedZones;
 	}
 	
 }

@@ -25,6 +25,7 @@ public class BeanCreator {
 	private RuleBean rule;
 	private List<PlayerBean> listPlayers;
 	private List<RegionBean> listRegions;
+	private List<ZoneBean> listZones;
 	
 	/**
 	 * Constructeur
@@ -39,6 +40,7 @@ public class BeanCreator {
 		this.rule.setMinimal(mapDao.getMinimal());
 		
 		this.listRegions = new ArrayList<>();
+		this.listZones = new ArrayList<>();
 		
 		// Ajoute chaque région à la liste des régions
 		for(RegionDAO regionDao : dao.getRegions().getListRegion()) {
@@ -49,6 +51,7 @@ public class BeanCreator {
 		// Récupère chaque Zone et l'associe aux régions qu'elle contient
 		for(ZoneDAO zoneDao : dao.getZones().getListZone()) {
 			ZoneBean zone = new ZoneBean(zoneDao.getName().replaceAll("\\s", ""), zoneDao.getBonus());
+			listZones.add(zone);
 			
 			// On ajoute les adjacences pour chaque région
 			for(RegionBean region : listRegions) {
@@ -121,5 +124,10 @@ public class BeanCreator {
 		return this.listRegions;
 	}
 
-	
+	/**
+	 * @return la liste de zones du jeu
+	 */
+	public List<ZoneBean> getListZones() {
+		return listZones;
+	}	
 }
