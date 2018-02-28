@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.risk.beans.AdjacencyBean;
 import com.risk.beans.PlayerBean;
 import com.risk.beans.RegionBean;
 import com.risk.beans.RuleBean;
@@ -100,6 +101,28 @@ public class MainHelper {
 			input = new BufferedReader(new InputStreamReader(System.in)).readLine();
 		}
 		return input;
+	}
+	
+	/**
+	 * Permet de récupérer une région choisie par l'utilisateur
+	 * @param regions La liste des régions sélectionnable par l'utilisateur
+	 * @return La région choisie par l'utilisateur
+	 * @throws IOException
+	 */
+	private static RegionBean getInputRegion(List<RegionBean> regions) throws IOException {
+		// Choix d'une région possédée
+		for(int i = 0; i < regions.size(); i++) {
+			// Affiche i avec le nom de la région
+			System.out.println(i + ": " + regions.get(i).getName() + 
+					" (actuellement " + regions.get(i).getTroopsOnGround() + " troupe(s))");
+		}
+		int num;
+		do {
+			num = getInputNumber("Choisir une région: ");
+		} while(num < 0 || num >= regions.size());
+
+		// On retourne la région choisie
+		return regions.get(num);
 	}
 	
 	/**
@@ -243,7 +266,7 @@ public class MainHelper {
 				// war();
 				
 				// Renforcement
-				// reinforcement()
+				reinforcement(player);
 				
 				// Test si encore au moins 2 joueurs en jeu
 				if(playersInGame.size() == 1)
@@ -288,18 +311,7 @@ public class MainHelper {
 			System.out.println("Il vous reste " + renfort + " renforts à déployer\n");
 			
 			// Choix d'une région possédée
-			for(int i = 0; i < player.getRegions().size(); i++) {
-				// Affiche i avec le nom de la région
-				System.out.println(i + ": " + player.getRegions().get(i).getName() + 
-						" (actuellement " + player.getRegions().get(i).getTroopsOnGround() + " troupe(s))");
-			}
-			int num;
-			do {
-				num = getInputNumber("Choisir une région: ");
-			} while(num < 0 || num >= player.getRegions().size());
-	
-			// On ajoute une troupe à la région
-			RegionBean region = player.getRegions().get(num);
+			RegionBean region = getInputRegion(player.getRegions());
 			
 			// Choix du nombre de troupe à déployer D
 			int nbDeployer;
@@ -313,11 +325,62 @@ public class MainHelper {
 		}
 	}
 	
-	private static void war() {
-		
-	}
+	//private static void war() {}
 	
-	private static void reinforcement() {
+	/**
+	 * Renforcement
+	 * @param player Joueur sur lequel agir
+	 * @throws IOException
+	 */
+	private static void reinforcement(PlayerBean player) throws IOException {
+		System.out.println("Renforcement");
 		
+		while(true) {
+			int rep = getInputNumber("\nSouhaitez-vous renforcer une région ? (0: non, 1: oui)");
+			if(rep == 0)
+				break;
+			else if(rep != 1)
+				continue;
+			else {
+				// L'utilisateur souhaite renforcer une région
+				RegionBean regionStart = getInputRegion(player.getRegions());
+				ArrayList<RegionBean> regionsAdjaOwned = new ArrayList<>();
+				for(AdjacencyBean adjacency : regionStart.getAdjacencies()) {
+					RegionBean regionOwned = player.getRegions()
+							.stream()
+							.filter(r -> r.getName().equals(adjacency.getRegion().getName()))
+							.findFirst()
+							.orElse(null);
+					
+					if(regionOwned != null)
+						regionsAdjaOwned.add(regionOwned);
+				}
+				RegionBean regionEnd = getInputRegion(regionsAdjaOwned);
+				
+				int troopsStart = regionStart.getTroopsOnGround(); // Le nombre de troupe sur la région de départ actuel
+				int troopsEnd = regionEnd.getTroopsOnGround(); // Le nombre de troupe sur la région d'arrivé actuel
+				
+				System.out.println("\nVous avez " + troopsStart + " dans la région " + regionStart.getName());
+				System.out.println("Vous avez " + troopsEnd + " dans la région " + regionEnd.getName()+"\n");
+				
+				int number = -1;
+				do {
+					number = getInputNumber("Indiquer le nombre de troupe entre 1 et " 
+				+ (troopsStart - 1) +
+				" à déployer de " 
+				+ regionStart.getName() +
+				" à " 
+				+ regionEnd.getName() + " (0 pour revenir en arrière): ");
+				} while(number != 0 || (number < 1 || number >= troopsStart));
+				
+				if(number == 0) // Cas ou l'utilisateur souhaite revenir en arrière
+					continue;
+				
+				// On effectue le déplacement
+				regionStart.setTroopsOnGround(troopsStart - number);
+				regionEnd.setTroopsOnGround(troopsEnd + number);
+				break;
+			}
+		}
 	}
 }
