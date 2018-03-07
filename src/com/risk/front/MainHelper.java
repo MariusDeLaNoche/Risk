@@ -263,10 +263,10 @@ public class MainHelper {
 				deployment(player, zones);
 				
 				// Guerre
-				// war();
+				war(player, playersInGame, freeRegions); // TODO A tester car ca va pas marché lel
 				
 				// Renforcement
-				reinforcement(player);
+				reinforcement(player); // TODO kom le todo du dessus 8D
 				
 				// Test si encore au moins 2 joueurs en jeu
 				if(playersInGame.size() == 1)
@@ -325,7 +325,116 @@ public class MainHelper {
 		}
 	}
 	
-	//private static void war() {}
+	/**
+	 * Attaque d'une région
+	 * @param player Joueur sur lequel agir
+	 * @param players Liste des joueurs de la partie
+	 * @param freeRegions Liste des regions occupées par aucun joueur
+	 * @throws IOException
+	 */
+	private static void war(PlayerBean player, List<PlayerBean> players, List<RegionBean> freeRegions) throws IOException {
+		System.out.println("Attaque");
+		while(true) {
+			int rep = getInputNumber("\nSouhaitez-vous attaquer une région ? (0: non, 1: oui)");
+			if(rep == 0)
+				break;
+			else if(rep != 1)
+				continue;
+			else {
+				// L'utilisateur souhaite attaquer une région
+				System.out.println("Choisir la région de départ");
+				RegionBean regionStart = getInputRegion(player.getRegions());
+				
+				int troopsStart = regionStart.getTroopsOnGround(); // Le nombre de troupe sur la région de départ
+				if(troopsStart < 2) {
+					System.out.println("La région doit contenir au moins 2 troupes");
+					continue;
+				}
+				
+				// Récupération des régions adjacente qui ne sont pas possédées
+				ArrayList<RegionBean> regionsAdjaNotOwned = new ArrayList<>();
+				for(AdjacencyBean adjacency : regionStart.getAdjacencies()) {
+					RegionBean regionNotOwned = player.getRegions()
+							.stream()
+							.filter(r -> r.getName().equals(adjacency.getRegion().getName()))
+							.findFirst()
+							.orElse(null);
+					
+					if(regionNotOwned == null)
+						regionsAdjaNotOwned.add(regionNotOwned);
+				}
+				
+				// Selection d'une région par l'utilisateur
+				RegionBean regionSelec = getInputRegion(regionsAdjaNotOwned);
+				// Retrouver à qui appartient la région sélectionnée
+				List<RegionBean> referenceRegions = null;
+				
+				// Dans la liste des régions possédées par personne
+				RegionBean regionEnd = freeRegions.stream().filter(r -> r.getName() == regionSelec.getName()).findFirst().orElse(null);
+				
+				if(regionEnd == null) {
+					// Dans la liste des régions de chaque joueurs
+					for(PlayerBean p : players) {
+						regionEnd = p.getRegions().stream().filter(r -> r.getName() == regionSelec.getName()).findFirst().orElse(null);
+						if(regionEnd != null) {
+							referenceRegions = p.getRegions();
+							break;
+						}
+					}
+				} else
+					referenceRegions = freeRegions;
+				
+				// TODO si referenceRegions == null alors what is the fuck ???? ça va faire boom en bas, indiquer erreur et continue?
+				
+				int troopsEnd = regionEnd.getTroopsOnGround(); // Le nombre de troupe sur la région d'arrivé
+				
+				// Choix du nombre de troupe à déployer
+				int troopsToDeploy = 0;
+				int troopsMax = Math.min(troopsStart - 1, 3);
+				do {
+					troopsToDeploy = getInputNumber("Nombre de troupe à déployer (entre 1 et " + troopsMax + "): ");
+				} while(troopsToDeploy >= 1 && troopsToDeploy <= troopsMax); // entre 1 et min(troopsStart-1, 3)
+					
+				// Validation par l'utilisateur
+				/* TODO ce que j'ai écris au dessus, putin mais regarde mieux... et si l'utilisateur veut pas soit tu lui fais
+				 * tout recommencer avec un continue à ce gros batard, soit j'en sais rien et j't'emmmmmeeeeerde
+				*/
+				
+				// On retire ces troupes de la région de départ
+				regionStart.setTroopsOnGround(troopsStart - troopsToDeploy);
+				
+				
+				// Calcul résultat de l'attaquant et du défenseur
+				int resAttaquant = calculResultat(troopsToDeploy);
+				int resDefenseur = calculResultat(troopsEnd);
+				
+				// Cas d'une attaque réussie
+				if(resAttaquant > resDefenseur) {
+					// Le nombre de troupe dans la région conquise devient le nombre de troupe déployées
+					regionEnd.setTroopsOnGround(troopsToDeploy);
+					// Supprimer la région au défenseur
+					referenceRegions.remove(regionEnd);
+					// Ajouter la région à l'attaquant
+					player.addRegion(regionEnd);
+				}
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Calcul le résultat d'une bataille selon le nombre de troupe renseignées
+	 * @param troopNumber Le nombre de troupe à prendre en compte
+	 * @return
+	 */
+	private static int calculResultat(int troopNumber) { // TODO bawé tacru sa alé kalkulé touseul ? XDDDDDDDDDDDDDDDDD
+		int res = 0;
+		for(int i = 0; i < troopNumber; i++) {
+			// res += random(1, 6); Mais ou est donc or ni car
+		}
+		
+		return res; 
+	}
 	
 	/**
 	 * Renforcement
@@ -357,8 +466,8 @@ public class MainHelper {
 				}
 				RegionBean regionEnd = getInputRegion(regionsAdjaOwned);
 				
-				int troopsStart = regionStart.getTroopsOnGround(); // Le nombre de troupe sur la région de départ actuel
-				int troopsEnd = regionEnd.getTroopsOnGround(); // Le nombre de troupe sur la région d'arrivé actuel
+				int troopsStart = regionStart.getTroopsOnGround(); // Le nombre de troupe sur la région de départ
+				int troopsEnd = regionEnd.getTroopsOnGround(); // Le nombre de troupe sur la région d'arrivé
 				
 				System.out.println("\nVous avez " + troopsStart + " dans la région " + regionStart.getName());
 				System.out.println("Vous avez " + troopsEnd + " dans la région " + regionEnd.getName()+"\n");
