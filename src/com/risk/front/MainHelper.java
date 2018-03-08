@@ -431,7 +431,6 @@ public class MainHelper {
 	private static int calculResultat(int troopNumber) { // TODO bawé tacru sa alé kalkulé touseul ? XDDDDDDDDDDDDDDDDD
 		int res = 0;
 		for(int i = 0; i < troopNumber; i++) {
-			// res += random(1, 6); Mais ou est donc or ni car
 			// Génération d'un nombre aléatoire entre 1 et 6 (le +1 est voulu :3)
 			res += ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		}
