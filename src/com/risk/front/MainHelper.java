@@ -452,19 +452,23 @@ public class MainHelper {
 				continue;
 			else {
 				// L'utilisateur souhaite renforcer une région
-				RegionBean regionStart = getInputRegion(player.getRegions());
+				RegionBean regionEnd = getInputRegion(player.getRegions());
 				ArrayList<RegionBean> regionsAdjaOwned = new ArrayList<>();
-				for(AdjacencyBean adjacency : regionStart.getAdjacencies()) {
+				for(AdjacencyBean adjacency : regionEnd.getAdjacencies()) {
 					RegionBean regionOwned = player.getRegions()
 							.stream()
 							.filter(r -> r.getName().equals(adjacency.getRegion().getName()))
 							.findFirst()
 							.orElse(null);
 					
-					if(regionOwned != null)
+					if(regionOwned != null && regionOwned.getTroopsOnGround() > 1)
 						regionsAdjaOwned.add(regionOwned);
 				}
-				RegionBean regionEnd = getInputRegion(regionsAdjaOwned);
+				if(regionsAdjaOwned.size() == 0) {
+					System.out.println("La région sélectionnée ne peut être renforcée car aucune région possédée avec suffisament de troupe n'y est adjacente");
+					continue;
+				}
+				RegionBean regionStart = getInputRegion(regionsAdjaOwned);
 				
 				int troopsStart = regionStart.getTroopsOnGround(); // Le nombre de troupe sur la région de départ
 				int troopsEnd = regionEnd.getTroopsOnGround(); // Le nombre de troupe sur la région d'arrivé
@@ -480,7 +484,7 @@ public class MainHelper {
 				+ regionStart.getName() +
 				" à " 
 				+ regionEnd.getName() + " (0 pour revenir en arrière): ");
-				} while(number != 0 || (number < 1 || number >= troopsStart));
+				} while(number != 0 && (number < 1 || number >= troopsStart));
 				
 				if(number == 0) // Cas ou l'utilisateur souhaite revenir en arrière
 					continue;
