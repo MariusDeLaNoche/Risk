@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -431,6 +432,8 @@ public class MainHelper {
 		int res = 0;
 		for(int i = 0; i < troopNumber; i++) {
 			// res += random(1, 6); Mais ou est donc or ni car
+			// Génération d'un nombre aléatoire entre 1 et 6 (le +1 est voulu :3)
+			res += ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		}
 		
 		return res; 
