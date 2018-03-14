@@ -370,6 +370,7 @@ public class MainHelper {
 				// Retrouver à qui appartient la région sélectionnée
 				List<RegionBean> referenceRegions = null;
 				
+				// TODO
 				// Dans la liste des régions possédées par personne
 				RegionBean regionEnd = freeRegions.stream().filter(r -> r.getName() == regionSelec.getName()).findFirst().orElse(null);
 				
@@ -385,7 +386,11 @@ public class MainHelper {
 				} else
 					referenceRegions = freeRegions;
 				
-				// TODO si referenceRegions == null alors what is the fuck ???? ça va faire boom en bas, indiquer erreur et continue?
+				// Ce cas n'est pas censé être possible, cela signifierait que la région n'est assigné à aucun joueur et n'est pas présent dans les regions libres
+				if(referenceRegions == null) {
+					System.out.println("Un problème est survenu");
+					continue;
+				}
 				
 				int troopsEnd = regionEnd.getTroopsOnGround(); // Le nombre de troupe sur la région d'arrivé
 				
@@ -397,9 +402,13 @@ public class MainHelper {
 				} while(troopsToDeploy >= 1 && troopsToDeploy <= troopsMax); // entre 1 et min(troopsStart-1, 3)
 					
 				// Validation par l'utilisateur
-				/* TODO ce que j'ai écris au dessus, putin mais regarde mieux... et si l'utilisateur veut pas soit tu lui fais
-				 * tout recommencer avec un continue à ce gros batard, soit j'en sais rien et j't'emmmmmeeeeerde
-				*/
+				int validationUser = -1;
+				do {
+					validationUser = getInputNumber("Valider ? (0: non, 1: oui)");
+				} while(validationUser != 0 && validationUser != 1);
+				
+				if(validationUser == 0)
+					continue;
 				
 				// On retire ces troupes de la région de départ
 				regionStart.setTroopsOnGround(troopsStart - troopsToDeploy);
@@ -407,17 +416,24 @@ public class MainHelper {
 				
 				// Calcul résultat de l'attaquant et du défenseur
 				int resAttaquant = calculResultat(troopsToDeploy);
+				System.out.println("Resultat attaquant: " + resAttaquant);
 				int resDefenseur = calculResultat(troopsEnd);
+				System.out.println("Resultat défenseur: " + resDefenseur);
 				
 				// Cas d'une attaque réussie
 				if(resAttaquant > resDefenseur) {
+					System.out.println("L'attaque a réussi");
 					// Le nombre de troupe dans la région conquise devient le nombre de troupe déployées
 					regionEnd.setTroopsOnGround(troopsToDeploy);
 					// Supprimer la région au défenseur
 					referenceRegions.remove(regionEnd);
 					// Ajouter la région à l'attaquant
 					player.addRegion(regionEnd);
-				}
+				} else
+					System.out.println("L'attaque a échoué");
+				
+				System.out.println("Troupe(s) restante(s) sur " + regionStart + ": " + regionStart.getTroopsOnGround());
+				System.out.println("Troupe(s) restante(s) sur " + regionEnd + ": " + regionEnd.getTroopsOnGround());
 				break;
 			}
 		}
@@ -428,7 +444,7 @@ public class MainHelper {
 	 * @param troopNumber Le nombre de troupe à prendre en compte
 	 * @return
 	 */
-	private static int calculResultat(int troopNumber) { // TODO bawé tacru sa alé kalkulé touseul ? XDDDDDDDDDDDDDDDDD
+	private static int calculResultat(int troopNumber) {
 		int res = 0;
 		for(int i = 0; i < troopNumber; i++) {
 			// Génération d'un nombre aléatoire entre 1 et 6 (le +1 est voulu :3)
