@@ -45,7 +45,9 @@ public class Main {
 		MainHelper.deployTroops(players);
 
 		// Effectuer les tours de jeu
-		MainHelper.doGameRound(players, freeRegions, beanCreator.getListZones());
+		PlayerBean winner = MainHelper.doGameRound(players, freeRegions, beanCreator.getListZones());
+		
+		System.out.println(winner.getName() + " gagne la partie !");
 		
 		System.out.println("");
 	}
