@@ -355,33 +355,24 @@ public class MainHelper {
 				// Récupération des régions adjacente qui ne sont pas possédées
 				ArrayList<RegionBean> regionsAdjaNotOwned = new ArrayList<>();
 				for(AdjacencyBean adjacency : regionStart.getAdjacencies()) {
-					RegionBean regionNotOwned = player.getRegions()
-							.stream()
-							.filter(r -> r.getName().equals(adjacency.getRegion().getName()))
-							.findFirst()
-							.orElse(null);
-					
-					if(regionNotOwned == null)
-						regionsAdjaNotOwned.add(regionNotOwned);
+					if(!player.getRegions().contains(adjacency.getRegion()));
+						regionsAdjaNotOwned.add(adjacency.getRegion());
 				}
 				
 				// Selection d'une région par l'utilisateur
-				RegionBean regionSelec = getInputRegion(regionsAdjaNotOwned);
-				// Retrouver à qui appartient la région sélectionnée
+				RegionBean regionEnd = getInputRegion(regionsAdjaNotOwned);
+				
+				// Référence pour éviter à répeter une manipulation sur plusieurs listes
 				List<RegionBean> referenceRegions = null;
 				
-				// TODO
-				// Dans la liste des régions possédées par personne
-				RegionBean regionEnd = freeRegions.stream().filter(r -> r.getName() == regionSelec.getName()).findFirst().orElse(null);
+				if(freeRegions.contains(regionEnd)) {
+					referenceRegions = freeRegions;
+				}
 				
-				if(regionEnd == null) {
-					// Dans la liste des régions de chaque joueurs
+				if(referenceRegions == null) {
 					for(PlayerBean p : players) {
-						regionEnd = p.getRegions().stream().filter(r -> r.getName() == regionSelec.getName()).findFirst().orElse(null);
-						if(regionEnd != null) {
+						if(p.getRegions().contains(regionEnd))
 							referenceRegions = p.getRegions();
-							break;
-						}
 					}
 				} else
 					referenceRegions = freeRegions;
@@ -399,7 +390,7 @@ public class MainHelper {
 				int troopsMax = Math.min(troopsStart - 1, 3);
 				do {
 					troopsToDeploy = getInputNumber("Nombre de troupe à déployer (entre 1 et " + troopsMax + "): ");
-				} while(troopsToDeploy >= 1 && troopsToDeploy <= troopsMax); // entre 1 et min(troopsStart-1, 3)
+				} while(troopsToDeploy < 1 || troopsToDeploy > troopsMax); // entre 1 et min(troopsStart-1, 3)
 					
 				// Validation par l'utilisateur
 				int validationUser = -1;
@@ -432,8 +423,8 @@ public class MainHelper {
 				} else
 					System.out.println("L'attaque a échoué");
 				
-				System.out.println("Troupe(s) restante(s) sur " + regionStart + ": " + regionStart.getTroopsOnGround());
-				System.out.println("Troupe(s) restante(s) sur " + regionEnd + ": " + regionEnd.getTroopsOnGround());
+				System.out.println("Troupe(s) restante(s) sur " + regionStart.getName() + ": " + regionStart.getTroopsOnGround());
+				System.out.println("Troupe(s) restante(s) sur " + regionEnd.getName() + ": " + regionEnd.getTroopsOnGround());
 				break;
 			}
 		}
