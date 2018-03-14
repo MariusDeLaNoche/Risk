@@ -20,7 +20,9 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {		
 		// Magnifique ASCII art
-		System.out.println("_-' RISK '-_\n");
+		System.out.println("   _----_   ");
+		System.out.println("_-' RISK '-_");
+		System.out.println("\\_-''''''-_/\n");
 		System.out.println("Bienvenue!");
 		
 		// Instanciation des classes DAO avec JAXB
@@ -47,7 +49,7 @@ public class Main {
 		// Effectuer les tours de jeu
 		MainHelper.doGameRound(players, freeRegions, beanCreator.getListZones());
 		
-		System.out.println("");
+		System.out.println("Partie terminée");
 	}
 
 }

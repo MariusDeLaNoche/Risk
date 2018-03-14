@@ -247,37 +247,35 @@ public class MainHelper {
 	 * @param players La liste des joueurs
 	 * @param regions La liste des régions non possédées
 	 * @param zones La liste des zones du jeu
-	 * @return Le joueur qui remporte la victoire
 	 * @throws IOException 
 	 */
-	public static PlayerBean doGameRound(List<PlayerBean> players, List<RegionBean> freeRegions, List<ZoneBean> zones) throws IOException {
+	public static void doGameRound(List<PlayerBean> players, List<RegionBean> freeRegions, List<ZoneBean> zones) throws IOException {
 		System.out.println("Début de la partie\n");
 		
 		List<PlayerBean> playersInGame = new ArrayList<>();
 		playersInGame.addAll(players);
 		
-		while(playersInGame.size() != 1) {
+		while(playersInGame.size() > 1) {
 			for(PlayerBean player : playersInGame) {
 				System.out.println("Joueur " + player.getName());
-				
 				// Déploiement
 				deployment(player, zones);
-				
 				// Guerre
-				war(player, playersInGame, freeRegions); // TODO A tester car ca va pas marché lel
-				
+				PlayerBean looser = war(player, playersInGame, freeRegions); 
 				// Renforcement
-				reinforcement(player); // TODO kom le todo du dessus 8D
-				
-				// Test si encore au moins 2 joueurs en jeu
-				if(playersInGame.size() == 1)
+				reinforcement(player); 
+				// Si un joueur vient de perde sa dernière région sur cette manche on le retire des joueurs en jeu
+				if (looser != null)
+					playersInGame.remove(looser); 
+				// Si il y a moins de deux joueurs en jeu, on termine
+				if(playersInGame.size() < 2)
 					break;
-				
 				System.out.println("-------------------------------\n");
 			}
+			
+			// Affiche du joueur gagnant
+			System.out.println("Partie terminée! " + playersInGame.get(0).getName() + " remporte la victoire!");
 		}
-		
-		return playersInGame.get(0);
 	}
 	
 	/**
@@ -333,7 +331,9 @@ public class MainHelper {
 	 * @param freeRegions Liste des regions occupées par aucun joueur
 	 * @throws IOException
 	 */
-	private static void war(PlayerBean player, List<PlayerBean> players, List<RegionBean> freeRegions) throws IOException {
+	private static PlayerBean war(PlayerBean player, List<PlayerBean> players, List<RegionBean> freeRegions) throws IOException {
+		PlayerBean playerLoose = null;
+		
 		System.out.println("Attaque");
 		while(true) {
 			int rep = getInputNumber("\nSouhaitez-vous attaquer une région ? (0: non, 1: oui)");
@@ -361,26 +361,6 @@ public class MainHelper {
 				
 				// Selection d'une région par l'utilisateur
 				RegionBean regionEnd = getInputRegion(regionsAdjaNotOwned);
-				
-				// Référence pour éviter à répeter une manipulation sur plusieurs listes
-				List<RegionBean> referenceRegions = null;
-				
-				if(freeRegions.contains(regionEnd)) {
-					referenceRegions = freeRegions;
-				}
-				
-				if(referenceRegions == null) {
-					for(PlayerBean p : players) {
-						if(p.getRegions().contains(regionEnd))
-							referenceRegions = p.getRegions();
-					}
-				}
-				
-				// Ce cas n'est pas censé être possible, cela signifierait que la région n'est assigné à aucun joueur et n'est pas présent dans les regions libres
-				if(referenceRegions == null) {
-					System.out.println("Un problème est survenu");
-					continue;
-				}
 				
 				int troopsEnd = regionEnd.getTroopsOnGround(); // Le nombre de troupe sur la région d'arrivé
 				
@@ -413,10 +393,28 @@ public class MainHelper {
 				// Cas d'une attaque réussie
 				if(resAttaquant > resDefenseur) {
 					System.out.println("L'attaque a réussi");
-					// Le nombre de troupe dans la région conquise devient le nombre de troupe déployées
+					// Le nombre de troupes dans la région conquise devient le nombre de troupes déployées
 					regionEnd.setTroopsOnGround(troopsToDeploy);
-					// Supprimer la région au défenseur
-					referenceRegions.remove(regionEnd);
+					// Si la région est libre, on la retire de la liste des régions libres
+					if(freeRegions.contains(regionEnd)) {
+						freeRegions.remove(regionEnd);
+					}
+					// Sinon elle appartient à un joueur, donc on lui retire la region
+					else {
+						PlayerBean playerWarLooser = null;
+						// On retrouve le joueur possedant la region
+						for(PlayerBean p : players) {
+							if(p.getRegions().contains(regionEnd)) {
+								playerWarLooser = p;
+								// On lui retire la region
+								p.removeRegion(regionEnd);
+							}
+						}
+						// On regarde si le joueur perdant possède encore une région
+						if (playerWarLooser.getRegions().size() == 0) {
+							playerLoose = playerWarLooser;
+						}
+					}
 					// Ajouter la région à l'attaquant
 					player.addRegion(regionEnd);
 				} else {
@@ -428,6 +426,8 @@ public class MainHelper {
 				break;
 			}
 		}
+		
+		return playerLoose;
 	}
 	
 	/**

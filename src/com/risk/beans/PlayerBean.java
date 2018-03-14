@@ -81,9 +81,7 @@ public class PlayerBean {
 	 * @param region Région à supprimer
 	 */
 	public void removeRegion(RegionBean region) {
-		RegionBean r = this.regions.stream().filter(o -> o.getName().equals(region.getName())).findFirst().orElse(null);
-		if(r != null)
-			regions.remove(r);
+		regions.remove(region);
 	}
 
 	/**
