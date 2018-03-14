@@ -374,8 +374,7 @@ public class MainHelper {
 						if(p.getRegions().contains(regionEnd))
 							referenceRegions = p.getRegions();
 					}
-				} else
-					referenceRegions = freeRegions;
+				}
 				
 				// Ce cas n'est pas censé être possible, cela signifierait que la région n'est assigné à aucun joueur et n'est pas présent dans les regions libres
 				if(referenceRegions == null) {
@@ -420,8 +419,9 @@ public class MainHelper {
 					referenceRegions.remove(regionEnd);
 					// Ajouter la région à l'attaquant
 					player.addRegion(regionEnd);
-				} else
+				} else {
 					System.out.println("L'attaque a échoué");
+				}
 				
 				System.out.println("Troupe(s) restante(s) sur " + regionStart.getName() + ": " + regionStart.getTroopsOnGround());
 				System.out.println("Troupe(s) restante(s) sur " + regionEnd.getName() + ": " + regionEnd.getTroopsOnGround());
