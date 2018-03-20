@@ -22,3 +22,10 @@ PROTIP : pour posseder entierrement la zone Océanie, posseder les regions suiva
 	PortMoresby
 	Perth
 	Sydney
+	
+---
+
+Memo prof pour prochaine livraison :
+- Preque pas de methodes en static :(
+- Checker comment on gere nos exceptions (arret du prog si xml invalide par exemple, et ne pas laisser tourner si erreur grave)
+- Listes! A utiliser uniquement quand on veux des données ordonnées, sinon on prefere les Set etc...
