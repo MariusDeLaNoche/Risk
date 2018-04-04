@@ -31,3 +31,15 @@ Memo prof pour prochaine livraison :
 - Listes! A utiliser uniquement quand on veux des données ordonnées, sinon on prefere les Set etc...
 - on devra etre capable de faire une partie et de la sauvegarder
 - on devra fragmenter en plusieurs projs avec maven
+
+
+---
+
+idée archi maven :
+
+Projet principal
+	Projet DAO
+		Projet DAO XML
+		Projet DAO SQL (sera fait plus tard, c'est pas encore le moment)
+	Projet Beans
+	
